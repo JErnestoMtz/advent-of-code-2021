@@ -4,17 +4,18 @@ class board:
     def __init__(self,numbers):
         self.numbers = numbers
         self.scores = [0]*10
+        self.won = False
     def update(self,n):
         for i, num in enumerate(self.numbers):
             if num == n:
                 self.numbers[i] += 100
                 self.scores[i%5] += 1
                 self.scores[m.floor(i/5) + 5 ] += 1
+        self.check()
     def check(self):
         for s in self.scores:
             if s == 5 :
-                return True
-        return False
+                self.won = True
 
 
 def chunks(l, n):
@@ -33,23 +34,51 @@ with open("input.txt") as f:
         b = board(boards[i])
         boar_objs.append(b)
 
-    k = 0
+################### Part 1  ####################
+    #win = False
+    #win_board = []
+    #final = 0
+#    while win is False:
+        #for n in nums:
+            #if win is True:
+                #break
+            #for b in boar_objs:
+                #b.update(n)
+                #if b.won == True:
+                    #final = n
+                    #print(b.numbers)
+                    #print(b.scores)
+                    #win_board = b.numbers
+                    #win = True
+                    #break
+
+
+################ Part 2 
+
     win = False
     win_board = []
     final = 0
+
     while win is False:
         for n in nums:
-            if win is True:
+            if win == True:
                 break
             for b in boar_objs:
                 b.update(n)
-                if b.check() == True:
+                if b.won == True:
+                    wins = 0
+                    for bo in boar_objs:
+                        if bo.won == True:
+                            wins += 1
                     final = n
-                    print(b.numbers)
-                    print(b.scores)
                     win_board = b.numbers
-                    win = True
-                    break
+                    br = 0
+                    if wins == 100:
+                        win = True
+                        print(b.numbers)
+                        print(b.scores)
+                        break
+
     x = 0
     print(final)
     for i , n in enumerate(win_board):
